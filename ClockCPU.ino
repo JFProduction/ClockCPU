@@ -142,10 +142,6 @@ void setup() {
 }
 
 void loop() {
-
-  //if (Serial.available() > 0) {    
-   //   SyncTime = Serial.readString();
- // }
       
   LastOptionButtonState = OptionRead;
   OptionRead = digitalRead(OptionButton);
@@ -158,37 +154,15 @@ void loop() {
       if (OptionButtonState == LOW) {
         OptionState = !OptionState;
         Option++;
-        if(Option > 4){
-          Option = 0;
-        }
       }
     }
   }
-  if((VDelta > 0) && (Option == 2)){
-  digitalWrite(LEDA, HIGH);
-}else{
-  digitalWrite(LEDA, LOW);
-}
-if((VDelta > 3) && (Option == 2)){
-  digitalWrite(LEDB, HIGH);
-}else{
-  digitalWrite(LEDB, LOW);
-}
-if((VDelta > 6) && (Option == 2)){
-  digitalWrite(LEDC, HIGH);
-}else{
-  digitalWrite(LEDC, LOW);
-}
-if((VDelta > 9) && (Option == 2)){
-  digitalWrite(LEDD, HIGH);
-}else{
-  digitalWrite(LEDD, LOW);
-}
-if((VDelta > 12 ) && (Option == 2)){
-  digitalWrite(LEDE, HIGH);
-}else{
-  digitalWrite(LEDE, LOW);
-} 
+  if(Option > 4){
+    Option = 0;
+  }
+
+  
+
   if(Option == 1){
     if(k == 0){
     OptionCount = millis();
@@ -387,32 +361,53 @@ if((VDelta > 12 ) && (Option == 2)){
        p++;
       }
       if((millis() - ChargeCount) > 250){
-        Serial.print("VS: ");
+        /*Serial.print("VS: ");
         Serial.print(VSense);
         Serial.print("\n");
         Serial.print("VB: ");
         Serial.print(VBat2);
         Serial.print("\n");
         Serial.print(VDelta2);
-        Serial.print("\n");
-        //Serial.print(ACharge3);
-        //Serial.print("\n");*/
-
-      //matrix.writeDigitNum(0,ACharge1);
+        Serial.print("\n");*/
+    
       matrix.writeDigitNum(0,0);
-      //matrix.writeDigitNum(1,ACharge2);
       matrix.writeDigitNum(1,VDelta2);
-      //matrix.writeDigitNum(3,ACharge3);
       matrix.writeDigitNum(3,0);
       matrix.writeDigitRaw(4,A);
       matrix.writeDigitRaw(2,BLDOT);
       matrix.writeDisplay();
      
-        p = 0;
-      }
-      
+      p = 0;
+      } 
     }
   }
+  
+  if((VDelta > 0) && (Option == 2)){
+      digitalWrite(LEDA, HIGH);
+    }else{
+      digitalWrite(LEDA, LOW);
+    }
+    if((VDelta > 3) && (Option == 2)){
+      digitalWrite(LEDB, HIGH);
+    }else{
+     digitalWrite(LEDB, LOW);
+    }
+    if((VDelta > 6) && (Option == 2)){
+      digitalWrite(LEDC, HIGH);
+    }else{
+      digitalWrite(LEDC, LOW);
+    }
+  if((VDelta > 9) && (Option == 2)){
+    digitalWrite(LEDD, HIGH);
+  }else{
+    digitalWrite(LEDD, LOW);
+  }
+  if((VDelta > 12 ) && (Option == 2)){
+    digitalWrite(LEDE, HIGH);
+  }else{
+    digitalWrite(LEDE, LOW);
+  }
+   
   if(Option == 3){
     if(k == 2){
       OptionCount = millis();
@@ -558,7 +553,7 @@ if((VDelta > 12 ) && (Option == 2)){
 
   if((Sync == 1) && (Option == 0)){ //If the sync button his pressed;
     if(j == 0){
-    SyncCount = millis();
+    SyncCount = millis();                                                                         
     //Serial.flush();
     j++;
     }
@@ -572,14 +567,14 @@ if((VDelta > 12 ) && (Option == 2)){
     }
     matrix.writeDigitRaw(0,S);
     matrix.writeDigitRaw(1,Y);
-    matrix.writeDigitRaw(3,N);
+    matrix.writeDigitRaw(3,N);                                                                     
     matrix.writeDigitRaw(2,BLANK); 
     matrix.writeDigitRaw(4,C);
     matrix.writeDisplay(); 
   
     if(((millis() - SyncCount) > ESPDelay) && (i == 0) && (j == 1)) {
       digitalWrite(ESPEnable, HIGH);
-    }else{
+    }else{                                                                                         
       digitalWrite(ESPEnable, LOW);
     }
     
@@ -588,7 +583,7 @@ if((VDelta > 12 ) && (Option == 2)){
       SyncTime = Serial.readString();
       //Serial.print(SyncTime);
       if((SyncTime.length() > 45)){
-      i++;
+      i++;                                                                                          
       Sync = 0;
       }else{
         Serial.flush();
@@ -597,7 +592,7 @@ if((VDelta > 12 ) && (Option == 2)){
   }
   if(i > 0){
     x = SyncTime.substring(16, 18);
-    y = SyncTime.substring(19, 21);
+    y = SyncTime.substring(19, 21);                                                                
     z = SyncTime.substring(22, 24);
     SyncHours2 = x.toInt()-4;
     SyncMinutes = y.toInt();
